@@ -9,7 +9,7 @@ const useFindStartEndRoomInfos = () => {
       const infos = []; // 각 교회의 첫,마지막 방 정보가 들어갈 배열dd
 
       // 교회명 배열 순회(A교회, B교회, ...)
-      for (const [index, name] of churchList.entries()) {
+      for (const name of churchList) {
         let startIndex = 0;
         let endIndex = 0;
         let startPersonnel = null;
@@ -20,8 +20,8 @@ const useFindStartEndRoomInfos = () => {
           let findResult = excelData.findIndex((item) => item[header] === name); // 해당 열에 교회 존재 여부
           const findStartResult = excelData.findIndex((item) => item[header] === name); // 해당 교회가 처음으로 등장하는 인덱스(찾으면 해당 인덱스 반환, 못찾으면 -1 반환)
           const findEndResult =
-            excelData.length - 1 - [...excelData].reverse().findIndex((item) => item[header] === name); // // 해당 교회가 마지막으로 등장하는 인덱스(찾으면 해당 인덱스 반환, 못찾으면 -1 반환)
-          const personnelColName = "personnel" + (index + 1); // 인원을 찾을 컬럼명
+          excelData.length - 1 - [...excelData].reverse().findIndex((item) => item[header] === name); // // 해당 교회가 마지막으로 등장하는 인덱스(찾으면 해당 인덱스 반환, 못찾으면 -1 반환)
+          const personnelColName = `personnel${index + 1}`; // 인원을 찾을 컬럼명
 
           // 첫째열에서 처음 찾으면 무조건 첫째열에 마지막이 있다.
           // 이 외열에서 처음 찾으면 처음 찾은 곳이 마지막이거나 첫째열에 마지막이 있다.
@@ -32,10 +32,10 @@ const useFindStartEndRoomInfos = () => {
             startPersonnel = excelData[startIndex][personnelColName];
             endPersonnel = excelData[endIndex][personnelColName];
           } else if (index !== 0 && findResult !== -1) {
-            // 이 외 열에서 또 찾았을 때
+            // 이 외 열의 경우
             startIndex = findStartResult; // 첫방의 헤드를 옮긴다.
             startPersonnel = excelData[startIndex][personnelColName];
-            endPersonnel = excelData[endIndex][personnelColName];
+            endPersonnel = excelData[startIndex][personnelColName];
           }
         }
 
@@ -81,16 +81,16 @@ const totalPersonnelByChurch = (excelData, headers) => {
 
       if (!name) continue; // 이름이 없는 경우 건너뛴다.
 
-      if (!obj[name]) { // 먼저 0으로 초기화
+      if (!obj[name]) {
+        // 먼저 0으로 초기화
         obj[name] = 0;
       }
-      
+
       obj[name] += personnel || 0; // personnel이 undefined인 경우 0으로 처리
     }
   }
-  
-  return obj;
-}
 
+  return obj;
+};
 
 export default useFindStartEndRoomInfos;

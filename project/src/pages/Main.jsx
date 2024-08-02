@@ -4,7 +4,7 @@ import useExcelToJson from "../hooks/useExcelToJson";
 import useGetHeadersByExcel from "../hooks/useGetHeadersByExcel";
 import useGetUniqueValues from "../hooks/useGetUniqueValues";
 import useFindStartEndRoomInfos from "../hooks/useFindStartEndRoomInfos";
-
+import styled from 'styled-components'
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -20,10 +20,31 @@ const Main = () => {
    * 4. 교회명 리스트업 완료
    */
 
+  const Roomcards =  startEndRoomInfos?.map((church)=>{
+    const {name, totalPersonnnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass} = church;
+    const roomArange = `${startRoomNum}(${startPersonnel})-${endRoomNum}(${endPersonnel})`;
+    return(
+      // 교회
+      // 3명 B
+      // 211 - 214(2)
+      <>
+      <Container>
+          <div>{name}</div>
+        <FlexBox>
+          <div>{totalPersonnnel}</div>
+          <div>{roomClass}</div>
+        </FlexBox>
+          <div>{roomArange}</div>
+      </Container>
+      </>
+    );
+  });
+
   useEffect(() => {
     console.log("headers >> ", headers);
     console.log("uniqueValues >> ", uniqueValues);
   }, [headers, uniqueValues]);
+
   return (
     <>
       {/* 파일 선택 인풋폼 */}
@@ -34,6 +55,7 @@ const Main = () => {
       {startEndRoomInfos && (
         <div>
           변환 결과
+          {/* {Roomcards} */}
           <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
         </div>
       )}
@@ -56,3 +78,16 @@ const Main = () => {
 };
 
 export default Main;
+
+
+const Container = styled.div`
+  width:300px;
+  height:100px;
+  background-color:burlywood;
+  text-align:center;
+`
+
+const FlexBox = styled.div`
+  display:flex;
+  text-align:center;
+`
