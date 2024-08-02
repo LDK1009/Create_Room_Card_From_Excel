@@ -75,13 +75,13 @@ const Main = () => {
       {/* 파일 선택 인풋폼 */}
       <FileInputForm setSelectedFile={setSelectedFile} />
       {/* 변환 버튼 */}
-      <button onClick={() => findStartEndRoomInfo(excelData, uniqueValues, headers)}>변환</button>
+      <div><button onClick={() => findStartEndRoomInfo(excelData, uniqueValues, headers)}>변환</button></div>
       <button onClick={handleDownload}>결과 다운로드</button>
       {/* 변환 결과 */}
       {startEndRoomInfos && (
         <div>
           변환 결과
-          <div ref={divRef}>{Roomcards}</div>
+          <CardWraper ref={divRef}>{Roomcards}</CardWraper>
           <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
         </div>
       )}
@@ -135,3 +135,10 @@ const Class = styled(Total)``;
 const Arange = styled(Total)`
   font-size: 18px;
 `;
+
+const CardWraper = styled.div`
+  width:400px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+`
