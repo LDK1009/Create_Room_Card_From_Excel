@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import FileInputForm from "../components/FileInputForm";
 import useExcelToJson from "../hooks/useExcelToJson";
 import useGetHeadersByExcel from "../hooks/useGetHeadersByExcel";
 import useGetUniqueValues from "../hooks/useGetUniqueValues";
 import useFindStartEndRoomInfos from "../hooks/useFindStartEndRoomInfos";
-import styled from 'styled-components'
+import styled from "styled-components";
+import html2canvas from "html2canvas";
+import saveAs from "file-saver";
+
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -13,6 +16,28 @@ const Main = () => {
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
   const { startEndRoomInfos, findStartEndRoomInfo } = useFindStartEndRoomInfos();
+
+  const divRef = useRef(null);
+
+  const handleDownload = async () => {
+    if (!divRef.current) {
+      alert("다운로드 대상이 존재하지 않습니다.");
+      return;
+    }
+
+    try {
+      const div = divRef.current;
+      const canvas = await html2canvas(div, { scale: 2 });
+      canvas.toBlob((blob) => {
+        if (blob !== null) {
+          saveAs(blob, "result.png");
+        }
+      });
+    } catch (error) {
+      console.error("Error converting div to image:", error);
+    }
+  };
+
   /**
    * 1. 프로퍼티 중 교회명이 들어가는 속성을 찾는다. 즉, 교회명이 들어가는 컬럼명을 찾는다(ex) 교회명, 교회명_1,  교회명_2)
    * 2. 배열을 순회하며 행의 컬럼명들을 모두 추출한다. ex) A교회, B교회, C교회
@@ -20,22 +45,22 @@ const Main = () => {
    * 4. 교회명 리스트업 완료
    */
 
-  const Roomcards =  startEndRoomInfos?.map((church)=>{
-    const {name, totalPersonnnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass} = church;
+  const Roomcards = startEndRoomInfos?.map((church) => {
+    const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
     const roomArange = `${startRoomNum}(${startPersonnel})-${endRoomNum}(${endPersonnel})`;
-    return(
+    return (
       // 교회
       // 3명 B
       // 211 - 214(2)
       <>
-      <Container>
-          <div>{name}</div>
-        <FlexBox>
-          <div>{totalPersonnnel}</div>
-          <div>{roomClass}</div>
-        </FlexBox>
-          <div>{roomArange}</div>
-      </Container>
+        <Container>
+          <Name>{name}</Name>
+          <FlexBox>
+            <Total>{totalPersonnel}</Total>
+            <Class>{roomClass}</Class>
+          </FlexBox>
+          <Arange>{roomArange}</Arange>
+        </Container>
       </>
     );
   });
@@ -51,11 +76,12 @@ const Main = () => {
       <FileInputForm setSelectedFile={setSelectedFile} />
       {/* 변환 버튼 */}
       <button onClick={() => findStartEndRoomInfo(excelData, uniqueValues, headers)}>변환</button>
+      <button onClick={handleDownload}>결과 다운로드</button>
       {/* 변환 결과 */}
       {startEndRoomInfos && (
         <div>
           변환 결과
-          {Roomcards}
+          <div ref={divRef}>{Roomcards}</div>
           <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
         </div>
       )}
@@ -79,15 +105,33 @@ const Main = () => {
 
 export default Main;
 
-
 const Container = styled.div`
-  width:300px;
-  height:100px;
-  background-color:burlywood;
-  text-align:center;
-`
+  width: 300px;
+  height: 150px;
+  background-color: antiquewhite;
+  border: 1px solid lightgreen;
+  margin-bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+`;
 
 const FlexBox = styled.div`
-  display:flex;
-  text-align:center;
-`
+  display: flex;
+  width: 100%;
+  justify-content: space-evenly;
+`;
+const Name = styled.div`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const Total = styled.div`
+  font-size: 18px;
+`;
+const Class = styled(Total)``;
+
+const Arange = styled(Total)`
+  font-size: 18px;
+`;
