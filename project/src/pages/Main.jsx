@@ -55,7 +55,7 @@ const Main = () => {
       {startEndRoomInfos && (
         <div>
           변환 결과
-          {/* {Roomcards} */}
+          {Roomcards}
           <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
         </div>
       )}
