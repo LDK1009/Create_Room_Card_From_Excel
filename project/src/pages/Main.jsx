@@ -3,7 +3,7 @@ import FileInputForm from "../components/FileInputForm";
 import useExcelToJson from "../hooks/useExcelToJson";
 import useGetHeadersByExcel from "../hooks/useGetHeadersByExcel";
 import useGetUniqueValues from "../hooks/useGetUniqueValues";
-import useFindStartEndRoomNum from "../hooks/useFindStartEndRoomNum";
+import useFindStartEndRoomInfos from "../hooks/useFindStartEndRoomInfos";
 
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
@@ -12,8 +12,7 @@ const Main = () => {
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
-  const { startEndRoomNumByChurch, findStartEndRoomNum } = useFindStartEndRoomNum();
-
+  const { startEndRoomInfos, findStartEndRoomInfo } = useFindStartEndRoomInfos();
   /**
    * 1. 프로퍼티 중 교회명이 들어가는 속성을 찾는다. 즉, 교회명이 들어가는 컬럼명을 찾는다(ex) 교회명, 교회명_1,  교회명_2)
    * 2. 배열을 순회하며 행의 컬럼명들을 모두 추출한다. ex) A교회, B교회, C교회
@@ -30,12 +29,12 @@ const Main = () => {
       {/* 파일 선택 인풋폼 */}
       <FileInputForm setSelectedFile={setSelectedFile} />
       {/* 변환 버튼 */}
-      <button onClick={() => findStartEndRoomNum(excelData, uniqueValues, headers)}>변환</button>
+      <button onClick={() => findStartEndRoomInfo(excelData, uniqueValues, headers)}>변환</button>
       {/* 변환 결과 */}
-      {startEndRoomNumByChurch && (
+      {startEndRoomInfos && (
         <div>
           변환 결과
-          <pre>{JSON.stringify(startEndRoomNumByChurch, null, 2)}</pre>
+          <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
         </div>
       )}
       {/* 컬럼 종류 */}
