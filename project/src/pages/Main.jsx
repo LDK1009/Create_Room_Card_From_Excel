@@ -7,7 +7,7 @@ import useFindStartEndRoomInfos from "../hooks/useFindStartEndRoomInfos";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
-import cardImg from '../assets/cardImg.png'
+import cardImg from "../assets/cardImg.png";
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -15,9 +15,17 @@ const Main = () => {
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
-  const { startEndRoomInfos, findStartEndRoomInfo } = useFindStartEndRoomInfos();
+  const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
+    useFindStartEndRoomInfos(); // 형제
+  const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } =
+    useFindStartEndRoomInfos(); // 자매
 
   const divRef = useRef(null);
+
+  const handleFindStartEnd = () => {
+    findStartEndRoomInfos1(excelData[0], uniqueValues[0], headers[0]);
+    findStartEndRoomInfos2(excelData[1], uniqueValues[1], headers[1]);
+  };
 
   const handleDownload = async () => {
     if (!divRef.current) {
@@ -39,7 +47,7 @@ const Main = () => {
   };
 
   // 룸카드 컴포넌트
-  const Roomcards = startEndRoomInfos?.map((church) => {
+  const Roomcards = startEndRoomInfos1?.map((church) => {
     const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
     const roomArange = `${startRoomNum}(${startPersonnel})-${endRoomNum}(${endPersonnel})`;
     return (
@@ -65,16 +73,29 @@ const Main = () => {
       {/* 파일 선택 인풋폼 */}
       <FileInputForm setSelectedFile={setSelectedFile} />
       {/* 변환 버튼 */}
-      <div><button onClick={() => findStartEndRoomInfo(excelData, uniqueValues, headers)}>변환</button></div>
+      <div>
+        <button onClick={handleFindStartEnd}>변환</button>
+      </div>
       <button onClick={handleDownload}>결과 다운로드</button>
-      {/* 변환 결과 */}
-      {startEndRoomInfos && (
-        <div>
-          변환 결과
-          <CardWraper ref={divRef}>{Roomcards}</CardWraper>
-          <pre>{JSON.stringify(startEndRoomInfos, null, 2)}</pre>
-        </div>
-      )}
+      <div style={{ display: "flex" }}>
+        {/* 변환 결과1 */}
+        {startEndRoomInfos1 && (
+          <div>
+            <h1>변환 결과1</h1>
+            {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
+            <pre>{JSON.stringify(startEndRoomInfos1, null, 2)}</pre>
+          </div>
+        )}
+        {/* 변환 결과2 */}
+        {startEndRoomInfos2 && (
+          <div>
+            <h1>변환 결과2</h1>
+            {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
+            <pre>{JSON.stringify(startEndRoomInfos2, null, 2)}</pre>
+          </div>
+        )}
+      </div>
+
       {/* 컬럼 종류 */}
       {headers && (
         <div>
@@ -105,13 +126,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
-  position:relative;
+  position: relative;
 `;
 
 const Img = styled.img`
-  width:300px;
+  width: 300px;
   height: 150;
-`
+`;
 const FlexBox = styled.div`
   display: flex;
   width: 100%;
@@ -132,8 +153,8 @@ const Arange = styled(Total)`
 `;
 
 const CardWraper = styled.div`
-  width:400px;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-`
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
