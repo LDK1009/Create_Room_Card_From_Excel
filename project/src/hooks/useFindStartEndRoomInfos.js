@@ -5,7 +5,6 @@ const useFindStartEndRoomInfos = () => {
 
   // 각 교회별 시작/끝 방번호 찾기
   const findStartEndRoomInfo = (excelData, churchList, headers) => {
-    debugger
     if (excelData) {
       const infos = []; // 각 교회의 첫,마지막 방 정보가 들어갈 배열dd
 
