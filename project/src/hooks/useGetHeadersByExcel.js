@@ -25,10 +25,10 @@ const useGetHeadersByExcel = (selectedFile, filterWord) => {
 
 
         // 필터링(교회이름 컬럼명만 남김dd)
-        for (let colName of colNames) {
-          colName = colName.filter((item) => item.includes(filterWord));
+        for (let [index, colName] of colNames.entries()) {
+          colNames[index] = colName.filter((item) => item.includes(filterWord));
         }
-        console.log("컬럼명 배열 >>",colNames);
+        // console.log("컬럼명 배열 >>",colNames);
         setHeaders(colNames);
       };
       reader.readAsArrayBuffer(selectedFile); // 파일 읽기 작업 시작(ArrayBuffer 형식으로 읽기, 8비트 정수 배열)

@@ -7,16 +7,27 @@ const useGetUniqueValues = (excelData, headers) => {
 
   useEffect(() => {
     if (excelData && headers) {
-      const allValues = []; // 해당 컬럼에 속하는 모든 값 (중복 허용)
-      // 뉴로직
-      for (const header of headers) {
-        for (const row of excelData) {
-          allValues.push(row[header]);
+      const allValues = [[],[]]; // 해당 컬럼에 속하는 모든 값 (중복 허용)
+
+      for (const [index, sheetData] of excelData.entries()) {
+        const header = headers[index]; // 해당 시트의 헤더 배열
+        // 모든 교회 담기
+        for (const col of header) {
+          for (const row of sheetData) {
+            allValues[index].push(row[col]);
+          }
         }
       }
-      const uniqValues = [...new Set(allValues)]; // 중복 제거
-      const filteredUniqValues = uniqValues.filter((value) => value !== undefined && value !== null);
-      setUniqueValues(filteredUniqValues);
+
+      for (let [index, allValue] of allValues.entries()) {
+        // 중복 제거
+        const uniqValue = [...new Set(allValue)];
+        // 빈값 제거
+        const filteredUniqValue = uniqValue.filter((value) => value !== undefined && value !== null);
+        allValues[index] = filteredUniqValue;
+      }
+      console.log(allValues);
+      setUniqueValues(allValues);
     }
   }, [excelData, headers]);
 

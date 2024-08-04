@@ -48,7 +48,7 @@ const Main = () => {
       // 211 - 214(2)
       <>
         <Container>
-          <Img src={cardImg}/>
+          {/* <Img src={cardImg}/> */}
           <Name>{name}</Name>
           <FlexBox>
             <Total>{totalPersonnel}</Total>
