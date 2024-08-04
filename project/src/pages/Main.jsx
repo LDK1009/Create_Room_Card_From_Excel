@@ -7,7 +7,7 @@ import useFindStartEndRoomInfos from "../hooks/useFindStartEndRoomInfos";
 import styled from "styled-components";
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
-
+import cardImg from '../assets/cardImg.png'
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -38,13 +38,7 @@ const Main = () => {
     }
   };
 
-  /**
-   * 1. 프로퍼티 중 교회명이 들어가는 속성을 찾는다. 즉, 교회명이 들어가는 컬럼명을 찾는다(ex) 교회명, 교회명_1,  교회명_2)
-   * 2. 배열을 순회하며 행의 컬럼명들을 모두 추출한다. ex) A교회, B교회, C교회
-   * 3. 2번에서 모든 교회명을 추출했기 때문에 중복을 삭제한다.
-   * 4. 교회명 리스트업 완료
-   */
-
+  // 룸카드 컴포넌트
   const Roomcards = startEndRoomInfos?.map((church) => {
     const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
     const roomArange = `${startRoomNum}(${startPersonnel})-${endRoomNum}(${endPersonnel})`;
@@ -54,6 +48,7 @@ const Main = () => {
       // 211 - 214(2)
       <>
         <Container>
+          <Img src={cardImg}/>
           <Name>{name}</Name>
           <FlexBox>
             <Total>{totalPersonnel}</Total>
@@ -64,11 +59,6 @@ const Main = () => {
       </>
     );
   });
-
-  useEffect(() => {
-    console.log("headers >> ", headers);
-    console.log("uniqueValues >> ", uniqueValues);
-  }, [headers, uniqueValues]);
 
   return (
     <>
@@ -115,8 +105,13 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: space-evenly;
+  position:relative;
 `;
 
+const Img = styled.img`
+  width:300px;
+  height: 150;
+`
 const FlexBox = styled.div`
   display: flex;
   width: 100%;

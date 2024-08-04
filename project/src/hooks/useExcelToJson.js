@@ -23,7 +23,7 @@ const useExcelToJson = (selectedFile) => {
           }
           
         }
-        console.log("테스트! >> ", jsonDatas);
+        // console.log("테스트! >> ", jsonDatas);
         setExcelData(jsonDatas);
       };
       reader.readAsArrayBuffer(selectedFile); // 파일 읽기 작업 시작(ArrayBuffer 형식으로 읽기, 8비트 정수 배열)
