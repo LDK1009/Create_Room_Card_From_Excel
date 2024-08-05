@@ -26,7 +26,7 @@ const useGetUniqueValues = (excelData, headers) => {
         const filteredUniqValue = uniqValue.filter((value) => value !== undefined && value !== null);
         allValues[index] = filteredUniqValue;
       }
-      console.log(allValues);
+      // console.log(allValues);
       setUniqueValues(allValues);
     }
   }, [excelData, headers]);

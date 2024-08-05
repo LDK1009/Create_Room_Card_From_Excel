@@ -8,6 +8,7 @@ import styled from "styled-components";
 import html2canvas from "html2canvas";
 import saveAs from "file-saver";
 import cardImg from "../assets/cardImg.png";
+import useMerge from "../hooks/useMerge";
 const Main = () => {
   const [selectedFile, setSelectedFile] = useState(null);
 
@@ -15,10 +16,10 @@ const Main = () => {
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
-  const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
-    useFindStartEndRoomInfos(); // 형제
-  const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } =
-    useFindStartEndRoomInfos(); // 자매
+  const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } = useFindStartEndRoomInfos(); // 형제
+  const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } = useFindStartEndRoomInfos(); // 자매
+
+  const {mergeData} = useMerge(startEndRoomInfos1, startEndRoomInfos2);
 
   const divRef = useRef(null);
 
@@ -95,21 +96,6 @@ const Main = () => {
           </div>
         )}
       </div>
-
-      {/* 컬럼 종류 */}
-      {headers && (
-        <div>
-          <h3>컬럼 종류:</h3>
-          <pre>{JSON.stringify(headers, null, 2)}</pre>
-        </div>
-      )}
-      {/* 선택된 엑설 데이터 종류 */}
-      {excelData && (
-        <div>
-          <h3>엑셀 데이터:</h3>
-          <pre>{JSON.stringify(excelData, null, 2)}</pre>
-        </div>
-      )}
     </>
   );
 };
