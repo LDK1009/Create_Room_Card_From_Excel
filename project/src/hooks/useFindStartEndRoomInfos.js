@@ -44,8 +44,9 @@ const useFindStartEndRoomInfos = () => {
 
         const startRoomNum = excelData[startIndex].roomNum; // 해당 교회가 배정된 첫방
         const endRoomNum = excelData[endIndex].roomNum; // 해당 교회가 배정된 마지막방
-        const floorNum = startRoomNum / 100; // 방 층수
-        const roomClass = floorNum === 2 || floorNum % 2 !== 0 ? "B" : "A"; // 분류
+        const floorNum = Math.floor(startRoomNum / 100); // 방 층수
+        console.log(floorNum)
+        const roomClass = ((floorNum === 2) || (floorNum % 2 !== 0)) ? "B" : "A"; // 분류
         const totalPersonnels = totalPersonnelByChurch(excelData, headers);
         const totalPersonnel = totalPersonnels[name];
 
