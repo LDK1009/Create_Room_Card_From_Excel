@@ -8,41 +8,54 @@ import html2canvas from "html2canvas";
 import saveAs from "file-saver";
 import useMerge from "../hooks/useMerge";
 import Roomcards from "../components/RoomCards";
-const Main = () => {
-  const [selectedFile, setSelectedFile] = useState(null);
 
+
+const Main = () => {
+  // 선택된 엑셀 파일
+  const [selectedFile, setSelectedFile] = useState(null);
+  // 엑셀 -> JSON 데이터
   const { excelData } = useExcelToJson(selectedFile);
+  // 컬럼명 배열
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
+  // 교회 리스트 
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
+  // 각 교회의 첫방막방 정보 추출
   const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
     useFindStartEndRoomInfos(); // 형제
   const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } =
     useFindStartEndRoomInfos(); // 자매
 
+  // 교회별 형제 자매 탭 데이터 합치기
   const { mergeInfos } = useMerge(startEndRoomInfos1, startEndRoomInfos2);
 
-  const divRef = useRef(null);
-
+  // 변환 버튼 클릭 시 실행
   const handleFindStartEnd = () => {
     findStartEndRoomInfos1(excelData[0], uniqueValues[0], headers[0]);
     findStartEndRoomInfos2(excelData[1], uniqueValues[1], headers[1]);
   };
+  
+  // 이미지 다운로드 참조
+  const imgRef = useRef([]);
 
+  
+  // 다운로드 핸들러
   const handleDownload = async () => {
-    if (!divRef.current) {
+    if (!imgRef.current) {
       alert("다운로드 대상이 존재하지 않습니다.");
       return;
     }
 
     try {
-      const div = divRef.current;
-      const canvas = await html2canvas(div, { scale: 2 });
-      canvas.toBlob((blob) => {
-        if (blob !== null) {
-          saveAs(blob, "result.png");
-        }
-      });
+      for (const [index, item] of imgRef.current.entries()) {
+        // const div = imgRef.current;
+        const canvas = await html2canvas(item, { scale: 2 });
+        canvas.toBlob((blob) => {
+          if (blob !== null) {
+            saveAs(blob, `${mergeInfos[index].name}.png`);
+          }
+        });
+      }
     } catch (error) {
       console.error("Error converting div to image:", error);
     }
@@ -57,13 +70,13 @@ const Main = () => {
         <button onClick={handleFindStartEnd}>변환</button>
       </div>
       <button onClick={handleDownload}>결과 다운로드</button>
-      {mergeInfos && <Roomcards mergeInfos={mergeInfos} />}
+      {mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef}/>}
       <div style={{ display: "flex" }}>
         {/* 변환 결과1 */}
         {mergeInfos && (
           <div>
             <h1>변환 결과</h1>
-            {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
+            {/* <CardWraper ref={imgRef}>{Roomcards}</CardWraper> */}
             <pre>{JSON.stringify(mergeInfos, null, 2)}</pre>
           </div>
         )}

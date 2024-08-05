@@ -2,8 +2,8 @@ import styled from "styled-components";
 import cardImg from "../assets/cardImg.png";
 
 // 룸카드 컴포넌트
-const Roomcards = ({ mergeInfos }) => {
-  const cards = mergeInfos.map((church) => {
+const Roomcards = ({ mergeInfos, imgRef }) => {
+  const cards = mergeInfos.map((church, index) => {
     const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
     const defineRoomArange = (startRoomNum, startPersonnel, endRoomNum, endPersonnel) => {
       let startPersonnelText = startPersonnel === 6 ? '' : `(${startPersonnel})`;
@@ -29,7 +29,7 @@ const Roomcards = ({ mergeInfos }) => {
       // 형제 | 10명 | A 201-202(4)
       // 자매 | 10명 | B 801-802(4)
       <>
-        <Container>
+        <Container ref={el => (imgRef.current[index] = el)}>
           <CardImg src={cardImg} />
           <TextContainer>
             <ChurchName>{name}</ChurchName>
