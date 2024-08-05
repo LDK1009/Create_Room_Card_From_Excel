@@ -8,6 +8,7 @@ import html2canvas from "html2canvas";
 import saveAs from "file-saver";
 import useMerge from "../hooks/useMerge";
 import Roomcards from "../components/RoomCards";
+import JSZip from 'jszip';
 
 
 const Main = () => {
@@ -47,15 +48,23 @@ const Main = () => {
     }
 
     try {
+      // 폴더 생성
+      const zip = new JSZip();
+      const folder = zip.folder('교회별 방배정 카드');
+
       for (const [index, item] of imgRef.current.entries()) {
-        // const div = imgRef.current;
         const canvas = await html2canvas(item, { scale: 2 });
         canvas.toBlob((blob) => {
           if (blob !== null) {
-            saveAs(blob, `${mergeInfos[index].name}.png`);
+            folder.file(`${mergeInfos[index].name}.png`, blob);
           }
         });
       }
+
+      zip.generateAsync({ type: 'blob' })
+      .then((content) => {
+        saveAs(content, '교회별 방배정 카드.zip');
+      });
     } catch (error) {
       console.error("Error converting div to image:", error);
     }
