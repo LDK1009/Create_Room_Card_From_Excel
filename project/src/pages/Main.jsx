@@ -19,7 +19,7 @@ const Main = () => {
   const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } = useFindStartEndRoomInfos(); // 형제
   const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } = useFindStartEndRoomInfos(); // 자매
 
-  const {mergeData} = useMerge(startEndRoomInfos1, startEndRoomInfos2);
+  const {mergeInfos} = useMerge(startEndRoomInfos1, startEndRoomInfos2);
 
   const divRef = useRef(null);
 
@@ -80,21 +80,13 @@ const Main = () => {
       <button onClick={handleDownload}>결과 다운로드</button>
       <div style={{ display: "flex" }}>
         {/* 변환 결과1 */}
-        {startEndRoomInfos1 && (
+        {mergeInfos && (
           <div>
-            <h1>변환 결과1</h1>
+            <h1>변환 결과</h1>
             {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
-            <pre>{JSON.stringify(startEndRoomInfos1, null, 2)}</pre>
+            <pre>{JSON.stringify(mergeInfos, null, 2)}</pre>
           </div>
-        )}
-        {/* 변환 결과2 */}
-        {startEndRoomInfos2 && (
-          <div>
-            <h1>변환 결과2</h1>
-            {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
-            <pre>{JSON.stringify(startEndRoomInfos2, null, 2)}</pre>
-          </div>
-        )}
+        )}        
       </div>
     </>
   );
