@@ -56,8 +56,7 @@ const Main = () => {
       const roomArange1 = startRoomNum[0]
         ? `${startRoomNum[0]}(${startPersonnel[0]})-${endRoomNum[0]}(${endPersonnel[0]})`
         : null;
-      const roomArange2 = startRoomNum[0]
-        ? `${startRoomNum[1]}(${startPersonnel[1]})-${endRoomNum[1]}(${endPersonnel[1]})`
+      const roomArange2 = startRoomNum[1] ? `${startRoomNum[1]}(${startPersonnel[1]})-${endRoomNum[1]}(${endPersonnel[1]})`
         : null;
 
       return (
