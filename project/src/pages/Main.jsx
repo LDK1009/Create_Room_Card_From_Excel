@@ -16,10 +16,12 @@ const Main = () => {
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
-  const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } = useFindStartEndRoomInfos(); // 형제
-  const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } = useFindStartEndRoomInfos(); // 자매
+  const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
+    useFindStartEndRoomInfos(); // 형제
+  const { startEndRoomInfos: startEndRoomInfos2, findStartEndRoomInfo: findStartEndRoomInfos2 } =
+    useFindStartEndRoomInfos(); // 자매
 
-  const {mergeInfos} = useMerge(startEndRoomInfos1, startEndRoomInfos2);
+  const { mergeInfos } = useMerge(startEndRoomInfos1, startEndRoomInfos2);
 
   const divRef = useRef(null);
 
@@ -48,26 +50,51 @@ const Main = () => {
   };
 
   // 룸카드 컴포넌트
-  const Roomcards = startEndRoomInfos1?.map((church) => {
-    const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
-    const roomArange = `${startRoomNum}(${startPersonnel})-${endRoomNum}(${endPersonnel})`;
-    return (
-      // 교회
-      // 3명 B
-      // 211 - 214(2)
-      <>
-        <Container>
-          {/* <Img src={cardImg}/> */}
-          <Name>{name}</Name>
-          <FlexBox>
-            <Total>{totalPersonnel}</Total>
-            <Class>{roomClass}</Class>
-          </FlexBox>
-          <Arange>{roomArange}</Arange>
-        </Container>
-      </>
-    );
-  });
+  const Roomcards = ({ mergeInfos }) => {
+    const cards = mergeInfos.map((church) => {
+      const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
+      const roomArange1 = startRoomNum[0]
+        ? `${startRoomNum[0]}(${startPersonnel[0]})-${endRoomNum[0]}(${endPersonnel[0]})`
+        : null;
+      const roomArange2 = startRoomNum[0]
+        ? `${startRoomNum[1]}(${startPersonnel[1]})-${endRoomNum[1]}(${endPersonnel[1]})`
+        : null;
+
+      return (
+        // 교회명
+        // 형제 | 10명 | A 201-202(4)
+        // 자매 | 10명 | B 801-802(4)
+        <>
+          <Container>
+            {/* <Img src={cardImg}/> */}
+            <Name>{name}</Name>
+            <StyledTable>
+              <tbody>
+                <tr>
+                  <StyledTh>형제</StyledTh>
+                  <StyledTd>{totalPersonnel[0] || null}</StyledTd>
+                  <StyledTd>
+                    {roomClass[0] || null}
+                    {roomArange1 || null}
+                  </StyledTd>
+                </tr>
+                <tr>
+                  <StyledTh>자매</StyledTh>
+                  <StyledTd>{totalPersonnel[1] || null}</StyledTd>
+                  <StyledTd>
+                    {roomClass[1] || null}
+                    {roomArange2 || null}
+                  </StyledTd>
+                </tr>
+              </tbody>
+            </StyledTable>
+          </Container>
+        </>
+      );
+    });
+
+    return <>{cards}</>;
+  };
 
   return (
     <>
@@ -78,6 +105,7 @@ const Main = () => {
         <button onClick={handleFindStartEnd}>변환</button>
       </div>
       <button onClick={handleDownload}>결과 다운로드</button>
+      {mergeInfos && <Roomcards mergeInfos={mergeInfos} />}
       <div style={{ display: "flex" }}>
         {/* 변환 결과1 */}
         {mergeInfos && (
@@ -86,7 +114,7 @@ const Main = () => {
             {/* <CardWraper ref={divRef}>{Roomcards}</CardWraper> */}
             <pre>{JSON.stringify(mergeInfos, null, 2)}</pre>
           </div>
-        )}        
+        )}
       </div>
     </>
   );
@@ -135,4 +163,22 @@ const CardWraper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+const StyledTable = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 10px;
+`;
+
+const StyledTh = styled.th`
+  border: 1px solid #ddd;
+  padding: 8px;
+  background-color: #f2f2f2;
+  text-align: left;
+`;
+
+const StyledTd = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
 `;
