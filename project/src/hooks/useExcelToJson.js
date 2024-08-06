@@ -11,7 +11,7 @@ const useExcelToJson = (selectedFile) => {
         // 이벤트 핸들러, 파일 읽기가 완료되었을 때 실행
         const data = new Uint8Array(e.target.result); // e.target.result를  8비트 부호 없는 정수 배열로 변환.
         const workbook = xlsx.read(data, { type: "array" }); // xlsx가 Uint8Array 객체 형식의 데이터를 읽는다.
-        const jsonDatas = new Array(workbook.SheetNames.length); // 탭 개수 크기의 배열 생성
+        const jsonDatas = new Array(2); // 탭 개수 크기의 배열 생성
         
         for (const sheetName of workbook.SheetNames) {
         const worksheet = workbook.Sheets[sheetName]; // 시트 데이터 접근
@@ -21,9 +21,8 @@ const useExcelToJson = (selectedFile) => {
           else if (sheetName === "자매"){
             jsonDatas[1] = xlsx.utils.sheet_to_json(worksheet); // 자매 데이터는 항상 1번째에 위치
           }
-          
         }
-        // console.log("테스트! >> ", jsonDatas);
+
         setExcelData(jsonDatas);
       };
       reader.readAsArrayBuffer(selectedFile); // 파일 읽기 작업 시작(ArrayBuffer 형식으로 읽기, 8비트 정수 배열)
