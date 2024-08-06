@@ -8,7 +8,6 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
 
     const roomArange1 = defineRoomArange(startRoomNum[0], startPersonnel[0], endRoomNum[0], endPersonnel[0]);
     const roomArange2 = defineRoomArange(startRoomNum[1], startPersonnel[1], endRoomNum[1], endPersonnel[1]);
-
     return (
       // 교회명
       // 형제 | 10명 | A 201-202(4)
@@ -32,6 +31,7 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
             </tr>
           </Table>
         </TextContainer>
+          <Footer>VISIONCAMP</Footer>
       </Container>
     );
   });
@@ -75,6 +75,7 @@ const ChurchName = styled.div`
   margin-top: 21px;
   font-size: 15px;
   text-align: center;
+  font-family: 'TheJamsil4Medium';
 `;
 
 const Table = styled.table`
@@ -105,4 +106,14 @@ const Td3 = styled(Td1)`
 const Td4 = styled(Td1)`
   width: 96px;
   border-right:0px;
+  text-align:left;
 `;
+
+const Footer = styled.div`
+  margin-top:14px;
+  font-size:15px;
+  color:#3956BC;
+  font-family: 'TheJamsil6ExtraBold';
+  letter-spacing:2px;
+  -webkit-text-stroke: 0.5px #3956BC; /* 텍스트 테두리 두께와 색상 */
+`
