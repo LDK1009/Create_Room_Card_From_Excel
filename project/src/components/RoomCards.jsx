@@ -28,8 +28,7 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
       // 교회명
       // 형제 | 10명 | A 201-202(4)
       // 자매 | 10명 | B 801-802(4)
-      <>
-        <Container ref={el => (imgRef.current[index] = el)}>
+        <Container key={index} ref={el => (imgRef.current[index] = el)}>
           <CardImg src={cardImg} />
           <TextContainer>
             <ChurchName>{name}</ChurchName>
@@ -49,7 +48,6 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
             </InfoTextContainer>
           </TextContainer>
         </Container>
-      </>
     );
   });
 
