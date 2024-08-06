@@ -76,6 +76,7 @@ const Main = () => {
         const canvas = await html2canvas(item, { scale: 2 }); // html > canvas 변환
         canvas.toBlob((blob) => {
           // canvas -> blob 변환
+          // 다음에 folder.file 코드에 await 테스트해보기(setTimeout과 치환)
           if (blob !== null) {
             folder.file(`${mergeInfos[index].name}.png`, blob); //  폴더에 이미지 삽입
           }
