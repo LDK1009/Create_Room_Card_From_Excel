@@ -32,6 +32,7 @@ const useGetHeadersByExcel = (selectedFile, filterWord) => {
       };
       reader.readAsArrayBuffer(selectedFile); // 파일 읽기 작업 시작(ArrayBuffer 형식으로 읽기, 8비트 정수 배열)
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedFile]);
 
   return { headers };

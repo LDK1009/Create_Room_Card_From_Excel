@@ -3,6 +3,7 @@ import cardImg from "../assets/cardImg.png";
 
 // 룸카드 컴포넌트
 const Roomcards = ({ mergeInfos, imgRef }) => {
+  console.log(mergeInfos);
   const cards = mergeInfos.map((church, index) => {
     const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
     const defineRoomArange = (startRoomNum, startPersonnel, endRoomNum, endPersonnel) => {

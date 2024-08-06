@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import FileInputForm from "../components/FileInputForm";
 import useExcelToJson from "../hooks/useExcelToJson";
 import useGetHeadersByExcel from "../hooks/useGetHeadersByExcel";
@@ -27,7 +27,7 @@ const Main = () => {
     useFindStartEndRoomInfos(); // 자매
 
   // 교회별 형제 자매 탭 데이터 합치기
-  const { mergeInfos } = useMerge(startEndRoomInfos1, startEndRoomInfos2);
+  const { mergeInfos } = useMerge(startEndRoomInfos1, startEndRoomInfos2, uniqueValues[0], uniqueValues[1]);
 
   // 변환 버튼 클릭 시 실행
   const handleFindStartEnd = () => {
