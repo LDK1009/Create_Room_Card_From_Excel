@@ -9,6 +9,7 @@ import saveAs from "file-saver";
 import useMerge from "../hooks/useMerge";
 import Roomcards from "../components/RoomCards";
 import JSZip from "jszip";
+import RoomPapers from "../components/RoomPapers";
 
 const Main = () => {
   // 선택된 엑셀 파일
@@ -20,6 +21,9 @@ const Main = () => {
   // 교회 리스트
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
+  const [isLoading, setIsLoading] = useState(null);
+  
+  
   // 각 교회의 첫방막방 정보 추출
   const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
     useFindStartEndRoomInfos(); // 형제
@@ -45,25 +49,48 @@ const Main = () => {
       return;
     }
 
+    // try {
+    //   for (const [index, item] of imgRef.current.entries()) {
+    //     // const div = imgRef.current;
+    //     const canvas = await html2canvas(item, { scale: 2 });
+    //     canvas.toBlob((blob) => {
+    //       if (blob !== null) {
+    //         saveAs(blob, `${mergeInfos[index].name}.png`);
+    //       }
+    //     });
+    //   }
+    // } catch (error) {
+    //   console.error("Error converting div to image:", error);
+    // }
+    ////////////
     try {
+      setIsLoading(true);
       // 폴더 생성
       const zip = new JSZip();
       const folder = zip.folder("교회별 방배정 카드");
 
+      console.log(imgRef.current.length);
       // 폴더에 이미지 삽입
       for (const [index, item] of imgRef.current.entries()) {
+        console.log("index>>", index);
         const canvas = await html2canvas(item, { scale: 2 }); // html > canvas 변환
-         canvas.toBlob((blob) => { // canvas -> blob 변환
+        canvas.toBlob((blob) => {
+          // canvas -> blob 변환
           if (blob !== null) {
             folder.file(`${mergeInfos[index].name}.png`, blob); //  폴더에 이미지 삽입
           }
         });
       }
 
-      // 폴더 다운로드
-      zip.generateAsync({ type: "blob" }).then((content) => {
-        saveAs(content, "교회별 방배정 카드.zip"); // 폴더 다운로드
-      });
+      setIsLoading(false);
+
+      // 3초 후에 showMessage 함수를 실행
+      setTimeout(() => {
+        // 폴더 다운로드
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          saveAs(content, "교회별 방배정 카드.zip"); // 폴더 다운로드
+        });
+      }, 2000);
     } catch (error) {
       console.error("Error converting div to image:", error);
     }
@@ -78,6 +105,8 @@ const Main = () => {
         <button onClick={handleFindStartEnd}>변환</button>
       </div>
       <button onClick={handleDownload}>결과 다운로드</button>
+      <div>{isLoading===true && "Loading...🤫"} </div>
+      <div>{isLoading===false && "Complete!😘"} </div>
       {mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef} />}
       <div style={{ display: "flex" }}>
         {/* 변환 결과1 */}
