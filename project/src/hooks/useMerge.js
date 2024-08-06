@@ -69,7 +69,7 @@ const useMerge = (data1, data2) => {
           mergeInfos.push(mergedData);
         }
       }
-      console.log(mergeInfos);
+      
       setMergeInfos(mergeInfos);
     }
   }, [data1, data2]);
