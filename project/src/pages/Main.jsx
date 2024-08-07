@@ -22,8 +22,7 @@ const Main = () => {
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
 
   const [isLoading, setIsLoading] = useState(null);
-  
-  
+
   // 각 교회의 첫방막방 정보 추출
   const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
     useFindStartEndRoomInfos(); // 형제
@@ -106,18 +105,11 @@ const Main = () => {
         <button onClick={handleFindStartEnd}>변환</button>
       </div>
       <button onClick={handleDownload}>결과 다운로드</button>
-      <div>{isLoading===true && "Loading...🤫"} </div>
-      <div>{isLoading===false && "Complete!😘"} </div>
-      {mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef} />}
-      <div style={{ display: "flex" }}>
-        {/* 변환 결과1 */}
-        {mergeInfos && (
-          <div>
-            <h1>변환 결과</h1>
-            {/* <CardWraper ref={imgRef}>{Roomcards}</CardWraper> */}
-            <pre>{JSON.stringify(mergeInfos, null, 2)}</pre>
-          </div>
-        )}
+      <div>{isLoading === true && "Loading...🤫"} </div>
+      <div>{isLoading === false && "Complete!😘"} </div>
+      <div style={{ display: "flex", width:"100%", justifyContent:"space-evenly"}}>
+        <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef} />}</div>
+        <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} />}</div>
       </div>
     </>
   );
