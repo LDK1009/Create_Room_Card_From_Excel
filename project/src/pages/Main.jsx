@@ -39,11 +39,11 @@ const Main = () => {
   };
 
   // 이미지 다운로드 참조
-  const imgRef = useRef([]);
+  const cardImgRef = useRef([]);
 
   // 다운로드 핸들러
   const handleDownload = async () => {
-    if (!imgRef.current) {
+    if (!cardImgRef.current) {
       alert("다운로드 대상이 존재하지 않습니다.");
       return;
     }
@@ -68,9 +68,9 @@ const Main = () => {
       const zip = new JSZip();
       const folder = zip.folder("교회별 방배정 카드");
 
-      console.log(imgRef.current.length);
+      console.log(cardImgRef.current.length);
       // 폴더에 이미지 삽입
-      for (const [index, item] of imgRef.current.entries()) {
+      for (const [index, item] of cardImgRef.current.entries()) {
         console.log("index>>", index);
         const canvas = await html2canvas(item, { scale: 2 }); // html > canvas 변환
         canvas.toBlob((blob) => {
@@ -108,7 +108,7 @@ const Main = () => {
       <div>{isLoading === true && "Loading...🤫"} </div>
       <div>{isLoading === false && "Complete!😘"} </div>
       <div style={{ display: "flex", width: "100%", justifyContent: "space-evenly" }}>
-        <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef} />}</div>
+        <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} cardImgRef={cardImgRef} />}</div>
         <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} />}</div>
       </div>
     </>

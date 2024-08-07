@@ -2,7 +2,7 @@ import styled from "styled-components";
 import defineRoomArange from "../modules/defineRoomArange";
 
 // 룸카드 컴포넌트
-const Roomcards = ({ mergeInfos, imgRef }) => {
+const Roomcards = ({ mergeInfos, cardImgRef }) => {
   // name 프로퍼티를 기준으로 오름차순 정렬
   const sortedInfos = mergeInfos.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -16,7 +16,7 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
       // 교회명
       // 형제 | 10명 | A 201-202(4)
       // 자매 | 10명 | B 801-802(4)
-      <Container key={index} ref={(el) => (imgRef.current[index] = el)}>
+      <Container key={index} ref={(el) => (cardImgRef.current[index] = el)}>
         {/* <CardImg src={cardImg} /> */}
         <TextContainer>
           <ChurchName>{name}</ChurchName>
