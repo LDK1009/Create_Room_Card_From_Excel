@@ -1,122 +1,46 @@
 import React from "react";
 import styled from "styled-components";
-import defineRoomArange from "../modules/defineRoomArange";
+import RoomPaper from "./RoomPaper";
 
 const RoomPapers = ({ mergeInfos, imgRef }) => {
-  const cards = mergeInfos.map((church, index) => {
-    const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
+  // name 프로퍼티를 기준으로 오름차순 정렬
+  const sortedInfos = mergeInfos.sort((a, b) => a.name.localeCompare(b.name));
 
-    const roomArange1 = defineRoomArange(startRoomNum[0], startPersonnel[0], endRoomNum[0], endPersonnel[0]);
-    const roomArange2 = defineRoomArange(startRoomNum[1], startPersonnel[1], endRoomNum[1], endPersonnel[1]);
+  console.log("sortedInfos>>", sortedInfos);
+  const sclicedInfos = []; // 배열을 14개씩 조각내어 담는다.
 
-    return (
-      // 교회명
-      // 형제 | 10명 | A 201-202(4)
-      // 자매 | 10명 | B 801-802(4)
-      
-      <Container key={index} ref={(el) => (imgRef.current[index] = el)}>
-        <CardImg src={CardImg} />
-        <TextContainer>
-          <ChurchName>{name}</ChurchName>
-          <InfoTextContainer>
-            <SiblingContainer>
-              <Gender>형제</Gender>
-              <TotalPeople>{totalPersonnel[0] || null}</TotalPeople>
-              <RoomClass>{roomClass[0] || null}</RoomClass>
-              <RoomArange>{roomArange1 || null}</RoomArange>
-            </SiblingContainer>
-            <SistersConstainer>
-              <Gender>자매</Gender>
-              <TotalPeople>{totalPersonnel[1] || null}</TotalPeople>
-              <RoomClass>{roomClass[1] || null}</RoomClass>
-              <RoomArange>{roomArange2 || null}</RoomArange>
-            </SistersConstainer>
-          </InfoTextContainer>
-        </TextContainer>
+  const scliceSize = 14;
+  const sliceNum = Math.ceil(sortedInfos.length / scliceSize); // 14로 나눈 몫(소수점 반올림)
+
+  for (let i = 0; i < sliceNum; i++) {
+    const start = i * scliceSize;
+
+    // 마지막 조각
+    if (i === sliceNum - 1) {
+      const infosPiece = sortedInfos.slice(start);
+      sclicedInfos.push(infosPiece);
+    }
+    // 이 외 조각
+    else {
+      const infosPiece = sortedInfos.slice(start, start + scliceSize);
+      sclicedInfos.push(infosPiece);
+    }
+  }
+
+  return (
+    <>
+      <Container>
+        {sclicedInfos.map((el) => {
+          return (
+            <>
+              <RoomPaper info={el} />
+            </>
+          );
+        })}
       </Container>
-    );
-  });
-
-  return <>{cards}</>;
+    </>
+  );
 };
 
+const Container = styled.div``;
 export default RoomPapers;
-
-const Container = styled.div`
-  width: 300px;
-  height: 225px;
-  background-color: antiquewhite;
-  border: 1px solid lightgreen;
-  margin-bottom: 20px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  position: relative;
-`;
-
-const CardImg = styled.img`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-`;
-const TextContainer = styled.div`
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-weight: 600;
-  font-size: 15px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-items: center;
-`;
-
-const ChurchName = styled.div`
-  margin-top: 35px;
-  font-size: 20px;
-  font-weight: bold;
-  text-align: center;
-`;
-
-const InfoTextContainer = styled.div`
-  margin-top: 5px;
-  width: 245px;
-  /* background-color:rgba(0,0,0,0.3); */
-`;
-const SiblingContainer = styled.div`
-  display: flex;
-  margin-top: 20px;
-`;
-
-const SistersConstainer = styled(SiblingContainer)``;
-
-const Gender = styled.div`
-  width: 40px;
-  margin-left: 20px;
-  text-align: center;
-  /* background-color:rgba(255,0,0,0.3); */
-`;
-
-const TotalPeople = styled.div`
-  width: 42px;
-  text-align: center;
-  /* background-color:rgba(0,255,0,0.3); */
-`;
-
-const RoomClass = styled.div`
-  width: 30px;
-  text-align: center;
-  /* background-color:rgba(0,0,255,0.3); */
-`;
-
-const RoomArange = styled.div`
-  width: 100px;
-  text-align: left;
-  /* background-color:rgba(255,0,0,0.3);   */
-`;

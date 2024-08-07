@@ -107,7 +107,7 @@ const Main = () => {
       <button onClick={handleDownload}>결과 다운로드</button>
       <div>{isLoading === true && "Loading...🤫"} </div>
       <div>{isLoading === false && "Complete!😘"} </div>
-      <div style={{ display: "flex", width:"100%", justifyContent:"space-evenly"}}>
+      <div style={{ display: "flex", width: "100%", justifyContent: "space-evenly" }}>
         <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} imgRef={imgRef} />}</div>
         <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} />}</div>
       </div>
