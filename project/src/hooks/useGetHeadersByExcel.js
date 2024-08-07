@@ -22,7 +22,7 @@ const useGetHeadersByExcel = (selectedFile, filterWord) => {
             colNames[1] = xlsx.utils.sheet_to_json(worksheet, { header: 1 })[0]; // 자매 시트 컬럼명 배열 담기
           }
         }
-      
+
         // 필터링(교회이름 컬럼명만 남김)
         for (let [index, colName] of colNames.entries()) {
           colNames[index] = colName.filter((item) => item.includes(filterWord));

@@ -27,7 +27,7 @@ const RoomPapers = ({ mergeInfos, peperImgRef }) => {
   }
 
   const papers = sclicedInfos.map((el, index) => {
-    return <RoomPaper key={index} info={el} peperImgRef={peperImgRef} index={index}  />;
+    return <RoomPaper key={index} info={el} peperImgRef={peperImgRef} index={index} />;
   });
 
   return <>{papers}</>;

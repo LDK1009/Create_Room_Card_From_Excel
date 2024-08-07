@@ -7,7 +7,7 @@ const useGetUniqueValues = (excelData, headers) => {
 
   useEffect(() => {
     if (excelData && headers) {
-      const allValues = [[],[]]; // 해당 컬럼에 속하는 모든 값 (중복 허용)
+      const allValues = [[], []]; // 해당 컬럼에 속하는 모든 값 (중복 허용)
 
       for (const [index, sheetData] of excelData.entries()) {
         const header = headers[index]; // 해당 시트의 헤더 배열
@@ -26,7 +26,7 @@ const useGetUniqueValues = (excelData, headers) => {
         const filteredUniqValue = uniqValue.filter((value) => value !== undefined && value !== null);
         allValues[index] = filteredUniqValue;
       }
-      
+
       setUniqueValues(allValues);
     }
   }, [excelData, headers]);
