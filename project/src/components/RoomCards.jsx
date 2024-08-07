@@ -55,13 +55,6 @@ const Container = styled.div`
   align-items: center;
 `;
 
-const CardImg = styled.img`
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  width: 100%;
-  height: 100%;
-`;
 const TextContainer = styled.div`
   width: 245px;
   height: 163px;
