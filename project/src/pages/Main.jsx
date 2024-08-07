@@ -12,6 +12,10 @@ import JSZip from "jszip";
 import RoomPapers from "../components/RoomPapers";
 
 const Main = () => {
+  // 다운로드 로딩 상태
+  const [isLoadingCard, setIsLoadingCard] = useState(null);
+  const [isLoadingPaper, setIsLoadingPaper] = useState(null);
+
   // 선택된 엑셀 파일
   const [selectedFile, setSelectedFile] = useState(null);
   // 엑셀 -> JSON 데이터
@@ -20,8 +24,6 @@ const Main = () => {
   const { headers } = useGetHeadersByExcel(selectedFile, "name"); // 교회명이 포함된 컬럼명
   // 교회 리스트
   const { uniqueValues } = useGetUniqueValues(excelData, headers); // 교회 리스트
-
-  const [isLoading, setIsLoading] = useState(null);
 
   // 각 교회의 첫방막방 정보 추출
   const { startEndRoomInfos: startEndRoomInfos1, findStartEndRoomInfo: findStartEndRoomInfos1 } =
@@ -40,39 +42,26 @@ const Main = () => {
 
   // 이미지 다운로드 참조
   const cardImgRef = useRef([]);
+  const paperImgRef = useRef([]);
 
-  // 다운로드 핸들러
-  const handleDownload = async () => {
+  // 카드 다운로드 핸들러
+  const handleCardDownload = async () => {
     if (!cardImgRef.current) {
-      alert("다운로드 대상이 존재하지 않습니다.");
+      alert("다운로드 대상(카드)이 존재하지 않습니다.");
       return;
     }
-
-    // try {
-    //   for (const [index, item] of imgRef.current.entries()) {
-    //     // const div = imgRef.current;
-    //     const canvas = await html2canvas(item, { scale: 2 });
-    //     canvas.toBlob((blob) => {
-    //       if (blob !== null) {
-    //         saveAs(blob, `${mergeInfos[index].name}.png`);
-    //       }
-    //     });
-    //   }
-    // } catch (error) {
-    //   console.error("Error converting div to image:", error);
-    // }
-    ////////////
     try {
-      setIsLoading(true);
+      setIsLoadingCard(true);
       // 폴더 생성
       const zip = new JSZip();
-      const folder = zip.folder("교회별 방배정 카드");
+      const folder = zip.folder("카드");
 
-      console.log(cardImgRef.current.length);
       // 폴더에 이미지 삽입
       for (const [index, item] of cardImgRef.current.entries()) {
-        console.log("index>>", index);
         const canvas = await html2canvas(item, { scale: 2 }); // html > canvas 변환
+
+        console.log(`${index}번째 카드 다운로드...`);
+
         canvas.toBlob((blob) => {
           // canvas -> blob 변환
           // 다음에 folder.file 코드에 await 테스트해보기(setTimeout과 치환)
@@ -82,17 +71,57 @@ const Main = () => {
         });
       }
 
-      setIsLoading(false);
-
       // 3초 후에 showMessage 함수를 실행
       setTimeout(() => {
         // 폴더 다운로드
         zip.generateAsync({ type: "blob" }).then((content) => {
-          saveAs(content, "교회별 방배정 카드.zip"); // 폴더 다운로드
+          saveAs(content, "카드.zip"); // 폴더 다운로드
         });
+
+        setIsLoadingCard(false);
       }, 2000);
     } catch (error) {
-      console.error("Error converting div to image:", error);
+      console.error("카드 다운로드 오류 : ", error);
+    }
+  };
+
+  // 라벨지 다운로드 핸들러
+  const handlePaperDownload = async () => {
+    if (!paperImgRef.current) {
+      alert("다운로드 대상(라벨지)이 존재하지 않습니다.");
+      return;
+    }
+    try {
+      setIsLoadingPaper(true);
+      // 폴더 생성
+      const zip = new JSZip();
+      const folder = zip.folder("라벨지");
+
+      // 폴더에 이미지 삽입
+      for (const [index, item] of paperImgRef.current.entries()) {
+        const canvas = await html2canvas(item, { scale: 2 }); // html > canvas 변환
+
+        console.log(`${index}번째 라벨지 다운로드...`);
+
+        canvas.toBlob((blob) => {
+          // canvas -> blob 변환
+          // 다음에 folder.file 코드에 await 테스트해보기(setTimeout과 치환)
+          if (blob !== null) {
+            folder.file(`라벨지${index + 1}.png`, blob); //  폴더에 이미지 삽입
+          }
+        });
+      }
+
+      // 2초 후에 showMessage 함수를 실행
+      setTimeout(() => {
+        // 폴더 다운로드
+        zip.generateAsync({ type: "blob" }).then((content) => {
+          saveAs(content, "라벨지.zip"); // 폴더 다운로드
+        });
+        setIsLoadingPaper(false);
+      }, 2000);
+    } catch (error) {
+      console.error("라벨지 다운로드 오류 : ", error);
     }
   };
 
@@ -104,12 +133,15 @@ const Main = () => {
       <div>
         <button onClick={handleFindStartEnd}>변환</button>
       </div>
-      <button onClick={handleDownload}>결과 다운로드</button>
-      <div>{isLoading === true && "Loading...🤫"} </div>
-      <div>{isLoading === false && "Complete!😘"} </div>
+      <button onClick={handleCardDownload}>카드 다운로드</button>
+      <div>{isLoadingCard === true && "Loading...🤫"} </div>
+      <div>{isLoadingCard === false && "Complete!😘"} </div>
+      <button onClick={handlePaperDownload}>라벨지 다운로드</button>
+      <div>{isLoadingPaper === true && "Loading...🤫"} </div>
+      <div>{isLoadingPaper === false && "Complete!😘"} </div>
       <div style={{ display: "flex", width: "100%", justifyContent: "space-evenly" }}>
         <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} cardImgRef={cardImgRef} />}</div>
-        <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} />}</div>
+        <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} peperImgRef={paperImgRef} />}</div>
       </div>
     </>
   );

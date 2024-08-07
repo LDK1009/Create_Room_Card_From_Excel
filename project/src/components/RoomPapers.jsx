@@ -1,8 +1,7 @@
 import React from "react";
-import styled from "styled-components";
 import RoomPaper from "./RoomPaper";
 
-const RoomPapers = ({ mergeInfos, imgRef }) => {
+const RoomPapers = ({ mergeInfos, peperImgRef }) => {
   // name 프로퍼티를 기준으로 오름차순 정렬
   const sortedInfos = mergeInfos.sort((a, b) => a.name.localeCompare(b.name));
 
@@ -27,20 +26,11 @@ const RoomPapers = ({ mergeInfos, imgRef }) => {
     }
   }
 
-  return (
-    <>
-      <Container>
-        {sclicedInfos.map((el) => {
-          return (
-            <>
-              <RoomPaper info={el} />
-            </>
-          );
-        })}
-      </Container>
-    </>
-  );
+  const papers = sclicedInfos.map((el, index) => {
+    return <RoomPaper key={index} info={el} peperImgRef={peperImgRef} index={index}  />;
+  });
+
+  return <>{papers}</>;
 };
 
-const Container = styled.div``;
 export default RoomPapers;

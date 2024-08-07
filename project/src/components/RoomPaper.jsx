@@ -2,23 +2,21 @@ import React from "react";
 import styled from "styled-components";
 import defineRoomArange from "../modules/defineRoomArange";
 
-const RoomPaper = ({ info }) => {
+const RoomPaper = ({ info, peperImgRef, index }) => {
   return (
-    <>
-      <Container>
-        <Title>숙소배정표</Title>
-        <Table>
-          <TableRow info1={info[0]} info2={info[1]} />
-          <TableRow info1={info[2]} info2={info[3]} />
-          <TableRow info1={info[4]} info2={info[5]} />
-          <TableRow info1={info[6]} info2={info[7]} />
-          <TableRow info1={info[8]} info2={info[9]} />
-          <TableRow info1={info[10]} info2={info[11]} />
-          <TableRow info1={info[12]} info2={info[13]} last />
-        </Table>
-        <Footer>괄호 안의 숫자는 해당 호실에 배정된 인원이며, 해당 호실은 다른 교회와 함께 사용하게 됩니다 :)</Footer>
-      </Container>
-    </>
+    <Container ref={(el) => (peperImgRef.current[index] = el)}>
+      <Title>숙소배정표</Title>
+      <Table>
+        <TableRow info1={info[0]} info2={info[1]} />
+        <TableRow info1={info[2]} info2={info[3]} />
+        <TableRow info1={info[4]} info2={info[5]} />
+        <TableRow info1={info[6]} info2={info[7]} />
+        <TableRow info1={info[8]} info2={info[9]} />
+        <TableRow info1={info[10]} info2={info[11]} />
+        <TableRow info1={info[12]} info2={info[13]} last />
+      </Table>
+      <Footer>괄호 안의 숫자는 해당 호실에 배정된 인원이며, 해당 호실은 다른 교회와 함께 사용하게 됩니다 :)</Footer>
+    </Container>
   );
 };
 
@@ -56,8 +54,8 @@ const TableRow = ({ info1, info2, last }) => {
   return (
     <>
       <tr>
-        <TdName colSpan={4}>{info1?.name}</TdName>
-        <TdName colSpan={4}>{info2?.name}</TdName>
+        <TdName1 colSpan={4}>{info1?.name}</TdName1>
+        <TdName2 colSpan={4}>{info2?.name}</TdName2>
       </tr>
       <tr>
         <Td1>형제</Td1>
@@ -67,7 +65,7 @@ const TableRow = ({ info1, info2, last }) => {
         <Td1>형제</Td1>
         <Td2>{peopleSibling2}</Td2>
         <Td3>{info2?.roomClass[0]}</Td3>
-        <Td4>{roomArangeSibling2}</Td4>
+        <Td4 style={{ borderRight: "1px solid black" }}>{roomArangeSibling2}</Td4>
       </tr>
       <tr>
         <Td1>자매</Td1>
@@ -77,7 +75,7 @@ const TableRow = ({ info1, info2, last }) => {
         <Td1>자매</Td1>
         <Td2>{peopleSisters2}</Td2>
         <Td3>{info2?.roomClass[1]}</Td3>
-        <Td4>{roomArangeSisters2}</Td4>
+        <Td4 style={{ borderRight: "1px solid black" }}>{roomArangeSisters2}</Td4>
       </tr>
       {last ? null : (
         <tr>
@@ -109,9 +107,10 @@ const Table = styled.table`
   border-collapse: collapse;
   font-size: 12px;
   text-align: center;
+  border: 0px;
 `;
 
-const TdName = styled.td`
+const TdName1 = styled.td`
   border: 1px solid black;
   width: 255px;
   height: 33px;
@@ -119,10 +118,17 @@ const TdName = styled.td`
   text-align: left;
   padding: 0px;
   padding-left: 8px;
+  border-right: 0px;
+`;
+
+const TdName2 = styled(TdName1)`
+  border-right: 1px solid black;
 `;
 
 const Td1 = styled.td`
   border: 1px solid black;
+  border-top: 0px;
+  border-right: 0px;
   width: 55px;
   height: 29px;
   padding: 0px;
