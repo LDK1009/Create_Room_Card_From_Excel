@@ -3,7 +3,11 @@ import defineRoomArange from "../modules/defineRoomArange";
 
 // 룸카드 컴포넌트
 const Roomcards = ({ mergeInfos, imgRef }) => {
-  const cards = mergeInfos.map((church, index) => {
+  // name 프로퍼티를 기준으로 오름차순 정렬
+  const sortedInfos = mergeInfos.sort((a, b) => a.name.localeCompare(b.name));
+
+  // 카드 컴포넌트
+  const cards = sortedInfos.map((church, index) => {
     const { name, totalPersonnel, startRoomNum, endRoomNum, startPersonnel, endPersonnel, roomClass } = church;
 
     const roomArange1 = defineRoomArange(startRoomNum[0], startPersonnel[0], endRoomNum[0], endPersonnel[0]);
@@ -31,7 +35,7 @@ const Roomcards = ({ mergeInfos, imgRef }) => {
             </tr>
           </Table>
         </TextContainer>
-          <Footer>VISIONCAMP</Footer>
+        <Footer>VISIONCAMP</Footer>
       </Container>
     );
   });
@@ -75,7 +79,7 @@ const ChurchName = styled.div`
   margin-top: 21px;
   font-size: 15px;
   text-align: center;
-  font-family: 'TheJamsil4Medium';
+  font-family: "TheJamsil4Medium";
 `;
 
 const Table = styled.table`
@@ -83,10 +87,10 @@ const Table = styled.table`
   width: 199px;
   height: 82px;
   border-collapse: collapse;
-  border:0px;
+  border: 0px;
   font-size: 12px;
   text-align: center;
-  margin-top:18px;
+  margin-top: 18px;
 `;
 
 const Td1 = styled.td`
@@ -101,19 +105,19 @@ const Td2 = styled(Td1)`
 `;
 const Td3 = styled(Td1)`
   width: 21px;
-  border-right:0px;
+  border-right: 0px;
 `;
 const Td4 = styled(Td1)`
   width: 96px;
-  border-right:0px;
-  text-align:left;
+  border-right: 0px;
+  text-align: left;
 `;
 
 const Footer = styled.div`
-  margin-top:14px;
-  font-size:15px;
-  color:#3956BC;
-  font-family: 'TheJamsil6ExtraBold';
-  letter-spacing:2px;
-  -webkit-text-stroke: 0.5px #3956BC; /* 텍스트 테두리 두께와 색상 */
-`
+  margin-top: 14px;
+  font-size: 15px;
+  color: #3956bc;
+  font-family: "TheJamsil6ExtraBold";
+  letter-spacing: 2px;
+  -webkit-text-stroke: 0.5px #3956bc; /* 텍스트 테두리 두께와 색상 */
+`;
