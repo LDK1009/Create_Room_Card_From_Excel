@@ -10,6 +10,7 @@ import useMerge from "../hooks/useMerge";
 import Roomcards from "../components/RoomCards";
 import JSZip from "jszip";
 import RoomPapers from "../components/RoomPapers";
+import styled from "styled-components";
 
 const Main = () => {
   // 다운로드 로딩 상태
@@ -127,24 +128,98 @@ const Main = () => {
 
   return (
     <>
-      {/* 파일 선택 인풋폼 */}
-      <FileInputForm setSelectedFile={setSelectedFile} />
-      {/* 변환 버튼 */}
-      <div>
-        <button onClick={handleFindStartEnd}>변환</button>
-      </div>
-      <button onClick={handleCardDownload}>카드 다운로드</button>
-      <div>{isLoadingCard === true && "Loading...🤫"} </div>
-      <div>{isLoadingCard === false && "Complete!😘"} </div>
-      <button onClick={handlePaperDownload}>라벨지 다운로드</button>
-      <div>{isLoadingPaper === true && "Loading...🤫"} </div>
-      <div>{isLoadingPaper === false && "Complete!😘"} </div>
-      <div style={{ display: "flex", width: "100%", justifyContent: "space-evenly" }}>
-        <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} cardImgRef={cardImgRef} />}</div>
-        <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} peperImgRef={paperImgRef} />}</div>
-      </div>
+      <Container>
+        <Header>❤ 숙소배정 라벨지 생성기 ❤</Header>
+        <Body>
+          <FileInputForm selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+          <TransformButton onClick={handleFindStartEnd}>파일 변환</TransformButton>
+          <PaperButtonWrap>
+            <PaperDownloadButton onClick={handlePaperDownload}>라벨지 다운로드</PaperDownloadButton>
+            {isLoadingPaper === null ? null : (
+              <LoadingText>{isLoadingPaper ? "Loading...🤫" : "Complete!😘"} </LoadingText>
+            )}
+          </PaperButtonWrap>
+          <CardButtonWrap>
+            <CardDownloadButton onClick={handleCardDownload}>카드 다운로드</CardDownloadButton>
+            {isLoadingCard === null ? null : (
+              <LoadingText>{isLoadingCard ? "Loading...🤫" : "Complete!😘"} </LoadingText>
+            )}
+          </CardButtonWrap>
+        </Body>
+        <Foot>
+          <div>{mergeInfos && <Roomcards mergeInfos={mergeInfos} cardImgRef={cardImgRef} />}</div>
+          <div>{mergeInfos && <RoomPapers mergeInfos={mergeInfos} peperImgRef={paperImgRef} />}</div>
+        </Foot>
+      </Container>
     </>
   );
 };
 
+const Container = styled.div``;
+
+const Header = styled.div`
+  line-height: 173px;
+  font-size: 40px;
+  font-weight: normal;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  font-family: "KCC-Ganpan";
+  border-bottom: 2px solid black;
+`;
+
+const Body = styled.div`
+  height: 800px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  font-family: "KCC-Ganpan";
+`;
+
+const TransformButton = styled.div`
+  width: 326px;
+  height: 53px;
+  margin-top: 48px;
+  background-color: #303030;
+  color: #ffffff;
+  border-radius: 15px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    opacity: 0.9;
+    cursor: pointer;
+  }
+`;
+
+const PaperButtonWrap = styled.div`
+  height: 103px;
+  margin-top: 80px;
+`;
+const PaperDownloadButton = styled(TransformButton)`
+  margin-top: 0px;
+`;
+
+const CardButtonWrap = styled(PaperButtonWrap)`
+  margin-top: 30px;
+`;
+
+const CardDownloadButton = styled(PaperDownloadButton)``;
+
+const LoadingText = styled.div`
+  height: 50px;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
+
+const Foot = styled.div`
+  padding-top: 52px;
+  background-color: #303030;
+  display: flex;
+  justify-content: space-evenly;
+`;
 export default Main;
