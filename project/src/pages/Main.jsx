@@ -129,7 +129,9 @@ const Main = () => {
   return (
     <>
       <Container>
-        <Header>❤ 숙소배정 라벨지 생성기 ❤</Header>
+        <Header>
+          <Logo>VISIONCAMP</Logo>❤ 숙소배정 라벨지 생성기 ❤
+        </Header>
         <Body>
           <FileInputForm selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
           <TransformButton onClick={handleFindStartEnd}>파일 변환</TransformButton>
@@ -155,10 +157,12 @@ const Main = () => {
   );
 };
 
+export default Main;
+
 const Container = styled.div``;
 
 const Header = styled.div`
-  line-height: 173px;
+  height: 173px;
   font-size: 40px;
   font-weight: normal;
   display: flex;
@@ -167,6 +171,14 @@ const Header = styled.div`
   position: relative;
   font-family: "KCC-Ganpan";
   border-bottom: 2px solid black;
+`;
+
+const Logo = styled.div`
+  font-size: 20px;
+  position: absolute;
+  top: 20px;
+  left: 23px;
+  text-decoration: underline;
 `;
 
 const Body = styled.div`
@@ -222,4 +234,3 @@ const Foot = styled.div`
   display: flex;
   justify-content: space-evenly;
 `;
-export default Main;
