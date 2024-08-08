@@ -136,13 +136,13 @@ const Main = () => {
           <PaperButtonWrap>
             <PaperDownloadButton onClick={handlePaperDownload}>라벨지 다운로드</PaperDownloadButton>
             {isLoadingPaper === null ? null : (
-              <LoadingText>{isLoadingPaper ? "Loading...🤫" : "Complete!😘"} </LoadingText>
+              <LoadingText>{isLoadingPaper ? "다운로드 중..." : "다운로드 완료!"} </LoadingText>
             )}
           </PaperButtonWrap>
           <CardButtonWrap>
             <CardDownloadButton onClick={handleCardDownload}>카드 다운로드</CardDownloadButton>
             {isLoadingCard === null ? null : (
-              <LoadingText>{isLoadingCard ? "Loading...🤫" : "Complete!😘"} </LoadingText>
+              <LoadingText>{isLoadingCard ? "다운로드 중..." : "다운로드 완료!"} </LoadingText>
             )}
           </CardButtonWrap>
         </Body>
