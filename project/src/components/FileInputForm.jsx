@@ -101,6 +101,6 @@ const DnDIcon = styled.img`
 
 const DnDText = styled.div`
   font-size: 20px;
-  color: ${(props) => (props.dragActive ? "#9BA5FF" : "black")};
+  color: ${(props) => (props.dragActive ? "#FF0000" : "black")};
 `;
 export default FileInputForm;

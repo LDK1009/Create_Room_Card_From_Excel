@@ -11,6 +11,7 @@ import Roomcards from "../components/RoomCards";
 import JSZip from "jszip";
 import RoomPapers from "../components/RoomPapers";
 import styled from "styled-components";
+import loveImg from "../assets/하트.png";
 
 const Main = () => {
   // 다운로드 로딩 상태
@@ -130,7 +131,10 @@ const Main = () => {
     <>
       <Container>
         <Header>
-          <Logo>VISIONCAMP</Logo>❤ 숙소배정 라벨지 생성기 ❤
+          <Logo>VISIONCAMP</Logo>
+          <LoveImg src={loveImg} />
+          숙소배정 라벨지 생성기
+          <LoveImg src={loveImg} />
         </Header>
         <Body>
           <FileInputForm selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
@@ -179,6 +183,11 @@ const Logo = styled.div`
   top: 20px;
   left: 23px;
   text-decoration: underline;
+`;
+
+const LoveImg = styled.img`
+  width: 60px;
+  height: 60px;
 `;
 
 const Body = styled.div`
