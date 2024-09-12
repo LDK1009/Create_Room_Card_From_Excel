@@ -1,9 +1,15 @@
+
+
+
 # 숙소 라벨지 생성기!
 
 
 <a href="https://create-room-card-from-excel-dpvd298qu-dong-kyu-lees-projects.vercel.app/" target="_blank">
 <img src="https://github.com/user-attachments/assets/8dc550c6-a3d7-453f-8fb5-87acdb062a52" alt="배너" width="100%"/>
 </a>
+
+[서비스 링크](https://create-room-card-from-excel-dpvd298qu-dong-kyu-lees-projects.vercel.app/)
+
 
 <br/>
 <br/>
@@ -12,7 +18,21 @@
 ```bash
 $ npm start
 ```
-[서비스 링크](https://create-room-card-from-excel-dpvd298qu-dong-kyu-lees-projects.vercel.app/)
+
+<br/>
+
+1. 엑셀에서 '형제', '자매' 탭을 생성하고 아래 양식에 맞추어 숙소 배정 데이터를 삽입합니다. (🚨 최상단 행, 탭 이름 변경 금지!)
+<img src="https://github.com/user-attachments/assets/0b12374e-098d-48cb-a402-f58c49cf727c" alt="기능1" width="100%"/>
+
+<br/>
+
+2. 파일 변환 버튼을 클릭하면 페이지 하단에 라벨지와 카드가 생성됩니다.
+<img src="https://github.com/user-attachments/assets/c15fdedf-fe18-4b1b-80f0-88d05a7d2b23" alt="기능2" width="100%"/>
+
+3. '라벨지 다운로드', '카드 다운로드' 버튼을 클릭 후 다운로드가 완료될 때까지 기다리면 생성된 모든 라벨지||카드가 다운로드 됩니다.
+<img src="https://github.com/user-attachments/assets/1f277d96-be57-4dbb-8d50-892bdfa56406" alt="기능3" width="100%"/>
+
+
 
 <br/>
 <br/>
