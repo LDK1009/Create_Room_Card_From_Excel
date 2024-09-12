@@ -126,8 +126,8 @@ project/
 │   ├── App.js               # 메인 애플리케이션 컴포넌트
 │   ├── index.js             # 엔트리 포인트 파일
 │   ├── index.css            # 전역 css 파일
-│   package-lock.json    # 정확한 종속성 버전이 기록된 파일로, 일관된 빌드를 보장
-│   package.json         # 프로젝트 종속성 및 스크립트 정의
+│   package-lock.json        # 정확한 종속성 버전이 기록된 파일로, 일관된 빌드를 보장
+│   package.json             # 프로젝트 종속성 및 스크립트 정의
 ├── .gitignore               # Git 무시 파일 목록
 └── README.md                # 프로젝트 개요 및 사용법
 ```
