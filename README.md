@@ -1,4 +1,4 @@
-[# Create_Room_Card_From_Excel
+# 숙소 라벨지 생성기!
 
 
 <a href="https://create-room-card-from-excel-dpvd298qu-dong-kyu-lees-projects.vercel.app/" target="_blank">
@@ -53,7 +53,7 @@ $ npm start
 # 4. Tasks & Responsibilities (작업 및 역할 분담)
 |  |  |  |
 |-----------------|-----------------|-----------------|
-| 이동규    |  <img src="https://github.com/user-attachments/assets/c1c2b1e3-656d-4712-98ab-a15e91efa2da" alt="이동규" width="100"> | <ul><li>프로젝트 계획 및 관리</li><li>팀 리딩 및 커뮤니케이션</li><li>커스텀훅 개발</li></ul>     |
+| 이동규    |  <img src="https://github.com/user-attachments/assets/c1c2b1e3-656d-4712-98ab-a15e91efa2da" alt="이동규" width="100"> | <ul><li>프로젝트 계획 및 관리</li><li>커스텀 훅 개발</li><li>컴포넌트 개발</li></ul>     |
 
 <br/>
 <br/>
@@ -73,24 +73,22 @@ $ npm start
 |-----------------|-----------------|-----------------|
 | React    |  <img src="https://github.com/user-attachments/assets/e3b49dbb-981b-4804-acf9-012c854a2fd2" alt="React" width="100"> | 18.3.1    |
 | StyledComponents    |  <img src="https://github.com/user-attachments/assets/c9b26078-5d79-40cc-b120-69d9b3882786" alt="StyledComponents" width="100">| 6.1.12   |
-| MaterialUI    |  <img src="https://github.com/user-attachments/assets/75a46fa7-ebc0-4a9d-b648-c589f87c4b55" alt="MUI" width="100">    | 5.0.0  |
-| DayJs    |  <img src="https://github.com/user-attachments/assets/3632d7d6-8d43-4dd5-ba7a-501a2bc3a3e4" alt="DayJs" width="100">    | 1.11.12    |
+| file-saver    |      | 2.0.5  |
+| html2canvas    |      | 1.4.1    |
+| jszip    |     | 3.10.1    |
+| xlsx    |     | 0.18.5    |
 
 <br/>
 
-## 5.3 Backend
-|  |  |  |
-|-----------------|-----------------|-----------------|
-| Firebase    |  <img src="https://github.com/user-attachments/assets/1694e458-9bb0-4a0b-8fe6-8efc6e675fa1" alt="Firebase" width="100">    | 10.12.5    |
 
 <br/>
 
-## 5.4 Cooperation
+## 5.3 Cooperation
 |  |  |
 |-----------------|-----------------|
 | Git    |  <img src="https://github.com/user-attachments/assets/483abc38-ed4d-487c-b43a-3963b33430e6" alt="git" width="100">    |
 | Git Kraken    |  <img src="https://github.com/user-attachments/assets/32c615cb-7bc0-45cd-91ea-0d1450bfc8a9" alt="git kraken" width="100">    |
-| Notion    |  <img src="https://github.com/user-attachments/assets/34141eb9-deca-416a-a83f-ff9543cc2f9a" alt="Notion" width="100">    |
+
 
 <br/>
 
@@ -108,7 +106,6 @@ project/
 │   ├── App.js               # 메인 애플리케이션 컴포넌트
 │   ├── index.js             # 엔트리 포인트 파일
 │   ├── index.css            # 전역 css 파일
-│   ├── firebaseConfig.js    # firebase 인스턴스 초기화 파일
 │   package-lock.json    # 정확한 종속성 버전이 기록된 파일로, 일관된 빌드를 보장
 │   package.json         # 프로젝트 종속성 및 스크립트 정의
 ├── .gitignore               # Git 무시 파일 목록
